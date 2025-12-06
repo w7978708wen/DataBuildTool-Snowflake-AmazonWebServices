@@ -9,6 +9,9 @@ Here is the <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-Amaz
 
 I created the internal permission to access the data. I created a new user within my AWS Console and assigned it with "AmazonS3FullAccess" permission. 
 
-I retrieved the user's credentials to create a stage in Snowflake.
+I retrieved the user's credentials to create a stage in Snowflake. I chose the same database and schema used in the step 1's code snippet. 
 
+<h2>Step 3. Load the data from AWS S3 Bucket to Snowflake</h2>
+
+I created my first S3 bucket. Then, I uploaded the .CSV files to later use in Snowflake.
 
