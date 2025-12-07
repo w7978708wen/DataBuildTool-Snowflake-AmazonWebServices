@@ -21,7 +21,16 @@ I created my first S3 bucket. Then, I uploaded the .CSV files to later use in Sn
 <img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/Files%20upload.png?raw=true"></img>
 
 <br>
-Then, I created a new table called "raw_movies" and assigned the data type of each column (movieID, title, genre). 
+Then, in Snowflake, I created an empty new table called "raw_movies" and assigned the data type of each column (movieID, title, genre). 
+
+
+<br>
+
+Next, I copied the content from my Amazon Web Service's S3 Bucket's <code>movie.csv</code> file onto my empty "raw_movies" table in Snowflake. This step is a good place to check whether the connection (involving the AWS IAM credentials) was actually established. 
+
+Then, I viewed the "raw_movie" table's output. Here is a quick look of the first few lines:
+
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/loaded_movies_csv.png?raw=true"></img>
 
 <br>
 
