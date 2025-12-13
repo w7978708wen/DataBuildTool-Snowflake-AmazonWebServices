@@ -50,6 +50,12 @@ I learned 2 major things:
 
 <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/SQL%20files/create%20stage%20and%20load%20data.sql">Here </a> is the code (I combined steps 2 and 3 into the same file) .
 
+<h2>Step 4.</h2>
+In VS Code, I created and activated the virtual environment, which stores the project's packages independently.
+
+
+Next, I installed dbt-Snowflake within the virtual environment.
+
 <h2>Citation (for using the .CSV files):</h2>
 
 <img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/Citation.png?raw=true"></img>
