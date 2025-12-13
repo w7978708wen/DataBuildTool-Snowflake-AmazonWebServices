@@ -50,7 +50,7 @@ I learned 2 major things:
 
 <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/SQL%20files/create%20stage%20and%20load%20data.sql">Here </a> is the code (I combined steps 2 and 3 into the same file) .
 
-<h2>Step 4. DBT Project Set-Up and Connection to Snowflake</h2>
+<h2>Step 4. DBT project set-up and its connection to Snowflake</h2>
 In VS Code, I created and activated the virtual environment, which stores the project's packages independently.
 
 
