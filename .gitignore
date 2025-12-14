@@ -1,0 +1,17 @@
+# Python / virtual environments
+.virtualenv/
+venv/
+__pycache__/
+*.pyc
+
+# dbt
+logs/
+dbt_packages/
+target/
+profiles.yml
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
