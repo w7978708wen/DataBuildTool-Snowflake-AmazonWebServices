@@ -3,7 +3,7 @@
 
 In short, I created a "transform" role, a DBT user, granted permissions to the "transform" role, and assigned the DBT user to have this role. I also created the default warehouse here. 
 
-<a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/SQL%20files/Role%20and%20user%20creation.sql">Here</a> is the code . 
+<a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Role%20and%20user%20creation.sql">Here</a> is the code . 
 <br>
 
 <h2>Step 2. Created the stage to connect to AWS </h2>
@@ -45,7 +45,7 @@ I learned 2 major things:
 
 2.One minor issue occurred when loading `ratings.csv`: 3 out of 465,564 rows failed to load, likely due to formatting errors, in the source file. Since the dataset is external and the number of problematic rows is extremely small, it is acceptable to proceed.
 
-<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/tags%20csv%20file%20partially%20loaded.png?raw=true"></img>
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/create%20stage%20and%20load%20data.sql"></img>
 <br>
 
 <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/SQL%20files/create%20stage%20and%20load%20data.sql">Here </a> is the code (I combined steps 2 and 3 into the same file) .
@@ -59,6 +59,26 @@ Next, I installed dbt-Snowflake within the virtual environment.
 Then, I initialized the dbt project by giving credentials like my Snowflake Account Identifier value. I learned some trouble-shooting, like when I was not able to complete my profile.yml during the set-up because the terminal froze. So, I learned how to resume the set-up, doing steps like creating a profile.yml file from scratch in the correct folder and testing the authentication connection. 🎉
 
 <img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/dbt-snowflake%20connection.png?raw=true"></img>
+
+<br>
+I also installed extensions on VS Code like "Power User for dbt" and "dbt formatter".
+
+
+<h2>Step 5. Model creation </h2>
+Each dbt model is a SQL select statement which would transform my data. For each .csv file, I created a temporary table (view) in my data warehouse using VS Code, so I can directly reference to the view later. 
+<a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/project/models/staging/src_models.sql"> Here </a> is the SQL file. 
+
+<br>
+
+This change is reflected in Snowflake so when I refresh the left side bar, the view appears. I like to preview the view to make sure the data transferred over.
+
+<br>
+
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/view%20created%201.png"></img>
+                                                                                                                                   
+<br>
+
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/view%20created%202.png"></img>
 
 <br>
 
