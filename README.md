@@ -91,6 +91,30 @@ Using the same method, I created a DBT model for each of the tables containing r
 
 <br>
 
+<h2>Step 6. Data warehouse: Fact and dimension table creation </h2>
+In Snowflake, I also wrote some DROP statements to drop all the views made using DBT models from Snowflake's "raw" folder, which represents the raw schema. This is because views/tables created in the staging step should have a different schema than raw data. 
+
+<br>
+Also: Ideally, we should have a different schema for the raw version and for the development version (aka staging version). So in profile.yml, I change the schema from “raw" to “dev”. This means that every dimension table will have "dev" schema while every table that contains the raw data will have "raw" schema. 
+
+<br>
+
+In addition, I updated the DBT model configuration so that models are materialized as views by default at the project level, while models inside the dim folder are materialized as tables.
+
+As a result, in Step 5, all DBT models were created as views. In Step 6, the dimension models were materialized as tables, while other models continued to be created as views.
+
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/dbt%20model%20configuration.png?raw=true"></img>
+
+<br>
+
+Preview the dimension table:
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/preview%20dimension%20table.png?raw=true"></img>
+
+Using a similar method, create a dimension table for each of the DBT model outputs. I prefer to run “dbt run” on the terminal after creating each view/table and seeing the view/table via Snowflake's Database Explorer to see if any errors need to be fixed.
+
+
+<br>
+
 <h2>Citation (for using the .CSV files):</h2>
 
 <img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/Citation.png?raw=true"></img>
