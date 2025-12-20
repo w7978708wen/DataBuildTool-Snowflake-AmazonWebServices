@@ -1,7 +1,7 @@
 
 <h2>Step 1. Role and user creation</h2>
 
-In short, I created a "transform" role, a DBT user, granted permissions to the "transform" role, and assigned the DBT user to have this role. I also created the default warehouse here. 
+In short, I created a "transform" role, a dbt user, granted permissions to the "transform" role, and assigned the dbt user to have this role. I also created the default warehouse here. 
 
 Code available upon request.
 
@@ -49,7 +49,7 @@ I learned 2 major things:
 
 <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/SQL%20files/create%20stage%20and%20load%20data.sql">Here </a> is the code (I combined steps 2 and 3 into the same file) .
 
-<h2>Step 4. DBT project set-up and its connection to Snowflake</h2>
+<h2>Step 4. dbt project set-up and its connection to Snowflake</h2>
 In VS Code, I created and activated the virtual environment, which stores the project's packages independently.
 
 
@@ -66,7 +66,7 @@ I also installed extensions on VS Code like "Power User for dbt" and "dbt format
 <h2>Step 5. Model creation </h2>
 Here, I want the data to go from the raw to staging.
 
-Each DBT model is a SQL select statement which would transform my data. For each <code>.csv</code> file, I created a temporary table (view) in my data warehouse using VS Code, so I can directly reference to the view later. I also have the option to change the DBT materialization configuration, where I could change from getting view to table, etc. 
+Each dbt model is a SQL select statement which would transform my data. For each <code>.csv</code> file, I created a temporary table (view) in my data warehouse using VS Code, so I can directly reference to the view later. I also have the option to change the dbt materialization configuration, where I could change from getting view to table, etc. 
 
 <br>
 
@@ -86,21 +86,21 @@ This change is reflected in Snowflake so when I refresh the Database Explorer, t
 
 <br>
 
-Using the same method, I created a DBT model for each of the tables containing raw data ... to take this data to the staging step.
+Using the same method, I created a dbt model for each of the tables containing raw data ... to take this data to the staging step.
 
 <br>
 
 <h2>Step 6. Data warehouse: Fact and dimension table creation </h2>
-In Snowflake, I also wrote some DROP statements to drop all the views made using DBT models from Snowflake's "raw" folder, which represents the raw schema. This is because views/tables created in the staging step should have a different schema than raw data. 
+In Snowflake, I also wrote some DROP statements to drop all the views made using dbt models from Snowflake's "raw" folder, which represents the raw schema. This is because views/tables created in the staging step should have a different schema than raw data. 
 
 <br>
 Also: Ideally, we should have a different schema for the raw version and for the development version (aka staging version). So in profile.yml, I change the schema from “raw" to “dev”. This means that every dimension table will have "dev" schema while every table that contains the raw data will have "raw" schema. 
 
 <br>
 
-In addition, I updated the DBT model configuration so that models are materialized as views by default at the project level, while models inside the fact (fct) and dim folders are materialized as tables.
+In addition, I updated the dbt model configuration so that models are materialized as views by default at the project level, while models inside the fact (fct) and dim folders are materialized as tables.
 
-As a result, in Step 5, all DBT models were created as views. In Step 6, the fact and dimension models changed to be materialized as tables by default, while other models continued to be created as views.
+As a result, in Step 5, all dbt models were created as views. In Step 6, the fact and dimension models changed to be materialized as tables by default, while other models continued to be created as views.
 
 <img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/dbt%20model%20configuration.png?raw=true"></img>
 
@@ -113,7 +113,7 @@ I wrote CTE using SQL to help with creating the fact and dimension tables.
 Here is a preview of the first dimension table I created:
 <img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/preview%20dimension%20table.png?raw=true"></img>
 
-Using a similar method, I create the remaining dimension tables by using the DBT model outputs. 
+Using a similar method, I create the remaining dimension tables by using the dbt model outputs. 
 
 <br>
 
@@ -169,7 +169,19 @@ In Snowflake's Database Explorer, I can preview the <code>dim_movies_with_tags.s
 
 <br>
 
-In general, after creating each view/table, I prefer to run the DBT on the terminal and seeing it via Snowflake's Database Explorer to see if any errors need to be fixed.
+In general, after creating each view/table, I prefer to run the dbt on the terminal and seeing it via Snowflake's Database Explorer to see if any errors need to be fixed.
+
+The files containing the code are located across the <code>models</code> folder. Click <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/tree/main/project/models">here</a> to view. 
+
+<h2>Step 7. Turning .CSV content into tables without uploading .CSV files </h2>
+I created a dbt seed by manually defining a small CSV dataset, which dbt materialized as a table in Snowflake. For small datasets, this is more convenient than uploading the CSV files from AWS S3 bucket and integrating them into Snowflake. 
+
+<br>
+
+Although a seed does not need to be wrapped in a model to work because a seed is basically a CSV file, it is good practice to do so for architecture and governance reasons. I create a dbt model called <code>mart_movie_releases.sql</code> that references the earlier dbt seed <code>seed_movie_release_dates.sql</code> created. This will convert the seed’s contents to a mart-level table that is in the staging step, which is the same step that all other dbt models should currently be in. 
+
+
+Code viewable <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/tree/main/project/seeds">here</a>. 
 
 <h2>Citation (for using the .CSV files):</h2>
 
