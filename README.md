@@ -173,7 +173,7 @@ In general, after creating each view/table, I prefer to run the dbt on the termi
 
 The files containing the code are located across the <code>models</code> folder. Click <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/tree/main/project/models">here</a> to view. 
 
-<h2>Step 7. Turning .CSV content into tables without uploading .CSV files </h2>
+<h2>Step 7. Turning CSV content into tables without uploading CSV files </h2>
 I created a dbt seed by manually defining a small CSV dataset, which dbt materialized as a table in Snowflake. For small datasets, this is more convenient than uploading the CSV files from AWS S3 bucket and integrating them into Snowflake. 
 
 <br>
@@ -183,7 +183,16 @@ Although a seed does not need to be wrapped in a model to work because a seed is
 
 Code viewable <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/tree/main/project/seeds">here</a>. 
 
-<h2>Citation (for using the .CSV files):</h2>
+<h2>Step 8. Create snapshot and surrogate key in table </h2>
+I create a snapshot of table <code>src_ratings.sql</code> model to track historical changes to individual records over time when source data is updated.
+
+I also learned how to create a surrogate key for the snapshot table used one of dbt's packages. The surrogate key is made because none of the values in each column is unique on their own. The surrogate key ,called "row_key", is derived from the combination of the "user_id", "movie_id", and "tag" columns from the <code>src_ratings.sql</code> table 
+
+On Snowflake, here is my snapshot table with the surrogate key column highlighted in blue:
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/snapshot%20table.png?raw=true"></img>
+
+<h2>Citation (for using the CSV files):</h2>
+
 
 <img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/Citation.png?raw=true"></img>
 
