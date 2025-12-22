@@ -188,8 +188,26 @@ I create a snapshot of table <code>src_ratings.sql</code> model to track histori
 
 I also learned how to create a surrogate key for the snapshot table used one of dbt's packages. The surrogate key is made because none of the values in each column is unique on their own. The surrogate key ,called "row_key", is derived from the combination of the "user_id", "movie_id", and "tag" columns from the <code>src_ratings.sql</code> table 
 
+<br>
+
 On Snowflake, here is my snapshot table with the surrogate key column highlighted in blue:
 <img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/snapshot%20table.png?raw=true"></img>
+
+Then I learned how to reference to the snapshot by writing a query in Snowflake, which reads snapshot history and orders rows by user_id to see how each record changes over time.
+
+```sql
+SELECT * FROM snapshots.snap_tags
+ORDER BY user_id, dbt_valid_from DESC;
+```
+Here is a snippet of the query output 
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/output%20of%20query%20which%20references%20snapshots.snap_tags.png?raw=true"></img>
+
+I changed the tag's value for rows with user_id = 18. In the meantime, I changed the configuration of <code>src_ratings.sql</code> from view to table, so the table could be referenced in the query. 
+
+Then I took another dbt snapshot, and viewed the output of the snapshot table. There are now 2 rows - 1 row has the old tag value and the other row has the new tag value.
+
+Here is a snippet of the output snapshot table:
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/snapshot%202%20table.png?raw=true"></img>
 
 <h2>Citation (for using the CSV files):</h2>
 
