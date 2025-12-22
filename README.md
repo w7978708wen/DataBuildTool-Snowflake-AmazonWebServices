@@ -209,6 +209,8 @@ Then I took another dbt snapshot, and viewed the output of the snapshot table. T
 Here is a snippet of the output snapshot table:
 <img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/snapshot%202%20table.png?raw=true"></img>
 
+View my code on Snowflake <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/take%20snapshots.sql">here</a>.
+
 <h2>Citation (for using the CSV files):</h2>
 
 
