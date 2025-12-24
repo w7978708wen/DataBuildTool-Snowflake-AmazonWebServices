@@ -211,12 +211,26 @@ Here is a snippet of the output snapshot table:
 
 View my code on Snowflake <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/take%20snapshots.sql">here</a>.
 
-<h2>Step 9. dbt Testing </h2>
-I performed dbt tests to validate data quality by checking that columns meet defined constraints, such as having non-null values, accepted values, and/or  valid relationships with other tables. 
+<h2>Step 9. dbt testing </h2>
+Before the data is moved forward, it is important to ensure that all test cases passed. I performed dbt tests to validate data quality by checking that columns meet defined constraints, such as having non-null values, accepted values, and/or valid relationships with other tables.
 
 <br>
 
 I can also choose to set a warning instead of an error if failure thresholds are met.
+
+<br>
+
+<h2>Step 10. dbt documentation</h2>
+I requested dbt documentation to be generated for my project, which is served locally as a website on my machine. There, I can view detailed information for each table, including its dependencies on other tables.
+
+<br>
+
+Here is a preview:
+
+<br>
+
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/dbt%20documentation.png?raw=true" height="400"></img>
+
 
 <h2>Citation (for using the CSV files):</h2>
 
