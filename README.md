@@ -119,14 +119,14 @@ Using a similar method, I create the remaining dimension tables by using the dbt
 
 <h3>Fact tables</h3>
 
-I created the first fact table <code>fct_genome_score.sql</code> as a table, which is the default materialization I set in <code>dbt_profile.yml</code> . 
+I created the first fact table <code>fct_g_score.sql</code> as a table, which is the default materialization I set in <code>dbt_profile.yml</code> . 
 
 <br>
 
 Then, I created the second fact table <code>fct_ratings.sql</code> as an incremental model to efficiently handle newly arriving fact data over time. This incremental model is designed to automatically appends only new records whose timestamps are more recent than the latest timestamp already loaded in the table. The configuration I specified in <code>fct_ratings.sql</code> overwrites the default configuration written in <code>dbt_profile.yml</code>. 
 
 
-Then I retrieved the <code>src_ratings.sql</code>, which was first created as a view in the staging folder. I want to simulate the situation where the table is conditioned to change when a new row of data comes in. So in <code>src_ratings.sql</code>, I specified configuration in the file which would overwrite the default configuration I set in <code>dbt_profile.yml</code>. Even though it will still be inside the "Staging" folder, it will become a table instead of staying as a view. 
+Then I retrieved the <code>stage_ratings.sql</code>, which was first created as a view in the staging folder. I want to simulate the situation where the table is conditioned to change when a new row of data comes in. So in <code>stage_ratings.sql</code>, I specified configuration in the file which would overwrite the default configuration I set in <code>dbt_profile.yml</code>. Even though it will still be inside the "Staging" folder, it will become a table instead of staying as a view. 
 
 In Snowflake, here is a snippet of the table output before adding a new line of record. 
 <img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/src_ratings%20output%201.png?raw=true" width=900></img>
@@ -140,15 +140,15 @@ Since the new row has a newer ratings timestamp than the existing record (for mo
 
 <br>
 
-In order for the new row in src_ratings dimension table to reflect in fct_ratings fact table, I typed some new commands on VS Code’s terminal, which detects whether there is any new data or not for the incremental model. Later, in Snowflake, the fct_ratings table also has this new row. 
+In order for the new row in stage_ratings dimension table to reflect in fct_ratings fact table, I typed some new commands on VS Code’s terminal, which detects whether there is any new data or not for the incremental model. Later, in Snowflake, the fct_ratings table also has this new row. 
 The src_ratings and fct_ratings table have the same-looking output. 
 
 <br>
-I also created an ephemeral model called <code>dim_movies_with_tags.sql</code>, where I can re-use the SQL logic, without creating a physical table/view in Snowflake. This type of model is beneficial for reducing storage costs and I/O costs leading to better query performance ... because it doesn't need to fetch data by reading intermediate tables/views.
+I also created an ephemeral model called <code>dim_movies_w_tags.sql</code>, where I can re-use the SQL logic, without creating a physical table/view in Snowflake. This type of model is beneficial for reducing storage costs and I/O costs leading to better query performance ... because it doesn't need to fetch data by reading intermediate tables/views.
 
 <br>
 
-I experimented calling the ephemeral model <code>dim_movies_with_tags.sql</code> by creating a SQL file called <code>ep_movie_with_tags.sql</code> with this code inside:
+I experimented calling the ephemeral model <code>dim_movies_w_tags.sql</code> by creating a SQL file called <code>ep_movie_w_tags.sql</code> with this code inside:
 
 ```sql
 WITH fct_movie_w_tags AS (
@@ -158,10 +158,10 @@ WITH fct_movie_w_tags AS (
 SELECT * FROM fct_movie_w_tags
 ```
 
-<code>ep_movie_with_tags.sql</code> is only created for educational purposes to help myself understand the application of ephemeral models.
+<code>ep_movie_w_tags.sql</code> is only created for educational purposes to help myself understand the application of ephemeral models.
 <br>
 
-In Snowflake's Database Explorer, I can preview the <code>dim_movies_with_tags.sql</code> 's data through <code>ep_movie_with_tags.sql</code> .
+In Snowflake's Database Explorer, I can preview the <code>dim_movies_w_tags.sql</code> 's data through <code>ep_movie_w_tags.sql</code> .
 
 <br>
 
@@ -178,15 +178,15 @@ I created a dbt seed by manually defining a small CSV dataset, which dbt materia
 
 <br>
 
-Although a seed does not need to be wrapped in a model to work because a seed is basically a CSV file, it is good practice to do so for architecture and governance reasons. I create a dbt model called <code>mart_movie_releases.sql</code> that references the earlier dbt seed <code>seed_movie_release_dates.sql</code> created. This will convert the seed’s contents to a mart-level table that is in the staging step, which is the same step that all other dbt models should currently be in. 
+Although a seed does not need to be wrapped in a model to work because a seed is basically a CSV file, it is good practice to do so for architecture and governance reasons. I create a dbt model called <code>mart_dates.sql</code> that references the earlier dbt seed <code>seed_dates.sql</code> created. This will convert the seed’s contents to a mart-level table that is in the staging step, which is the same step that all other dbt models should currently be in. 
 
 
 Code viewable <a href="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/tree/main/project/seeds">here</a>. 
 
 <h2>Step 8. Create snapshot and surrogate key in table </h2>
-I create a snapshot of table <code>src_ratings.sql</code> model to track historical changes to individual records over time when source data is updated.
+I create a snapshot of table <code>stage_ratings.sql</code> model to track historical changes to individual records over time when source data is updated.
 
-I also learned how to create a surrogate key for the snapshot table used one of dbt's packages. The surrogate key is made because none of the values in each column is unique on their own. The surrogate key ,called "row_key", is derived from the combination of the "user_id", "movie_id", and "tag" columns from the <code>src_ratings.sql</code> table 
+I also learned how to create a surrogate key for the snapshot table used one of dbt's packages. The surrogate key is made because none of the values in each column is unique on their own. The surrogate key ,called "row_key", is derived from the combination of the "user_id", "movie_id", and "tag" columns from the <code>stage_ratings.sql</code> table 
 
 <br>
 
@@ -202,7 +202,7 @@ ORDER BY user_id, dbt_valid_from DESC;
 Here is a snippet of the query output 
 <img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/output%20of%20query%20which%20references%20snapshots.snap_tags.png?raw=true"></img>
 
-I changed the tag's value for rows with user_id = 18. In the meantime, I changed the configuration of <code>src_ratings.sql</code> from view to table, so the table could be referenced in the query. 
+I changed the tag's value for rows with user_id = 18. In the meantime, I changed the configuration of <code>stage_ratings.sql</code> from view to table, so the table could be referenced in the query. 
 
 Then I took another dbt snapshot, and viewed the output of the snapshot table. There are now 2 rows - 1 row has the old tag value and the other row has the new tag value.
 
