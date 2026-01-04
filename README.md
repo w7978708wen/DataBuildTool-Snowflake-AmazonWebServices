@@ -251,38 +251,55 @@ c.Maximize return on investment (ROI) from movie licensing costs
 
 To support these objectives, I used Snowflake and dbt compiler. I used audience ratings as a proxy for viewer engagement and popularity, which are key indicators for advertising value.
 
+<br>
+
+<br>
 
 Question 1. Which are the 50 highest rated movies (sorted in descending rating and has a minimum rating count of 100)
+
 <br>
+
 Business need:
 Highly rated movies with a large number of ratings are more likely to attract consistent viewership, so they should be played during prime-time broadcasting and would yield higher advertising revenue.
+
 <br>
+
 Here is a snippet of the output:
-<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/output%20of%20top%2050%20highest%20rated%20movies%20analysis.png?raw=true"></img>
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/output%20of%20top%2050%20highest%20rated%20movies%20analysis.png?raw=true" width="900"></img>
 
 <br>
 
 Question 2. Which are the highest-rated Comedy genre movies (sorted in descending rating and with minimum rating count of 100)?
+
 <br>
+
 Business need:
 If the client is interested in purchasing movies from a specific genre, this analysis narrows down the results to support more targeted decision-making.
+
 <br>
+
 Here is a snippet of the output:
-<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/output%20of%2050%20highest%20rated%20comedy%20movies%20analysis.png?raw=true"></img>
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/output%20of%2050%20highest%20rated%20comedy%20movies%20analysis.png?raw=true" width="900"></img>
 
 <br>
 
 Question 3. Which movie genres receive the most ratings overall?
+
 <br>
+
 Business need:
 Genres with higher rating volumes tend to indicate larger or more engaged audiences, which can influence the client's strategy in:
 <br>
 a.Which genres to prioritize during peak vs. non-peak hours
+
 <br>
+
 b.Whether to allocate more budget toward buying movies in high-engagement genres
+
 <br>
+
 Here is a snippet of the output:
-<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/output%20of%20which%20genre%20of%20movies%20receive%20most%20ratings.png?raw=true"></img>
+<img src="https://github.com/w7978708wen/DataBuildTool-Snowflake-AmazonWebServices/blob/main/Screenshots/output%20of%20which%20genre%20of%20movies%20receive%20most%20ratings.png?raw=true" width="900"></img>
 
 Note:
 The genre field in this analysis is derived from appended genre tags in the source dataset. Movies with multiple genres (e.g., Comedy|Drama) are treated as separate genre classifications from single-genre movies (e.g., Comedy).
