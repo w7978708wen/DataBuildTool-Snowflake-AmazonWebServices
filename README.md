@@ -249,7 +249,7 @@ b.Increase advertising demand during commercial breaks
 
 c.Maximize return on investment (ROI) from movie licensing costs
 
-To support these objectives, I used Snowflake and dbt compiler. I used audience ratings as a proxy for viewer engagement and popularity, which are key indicators for advertising value.
+To support these objectives, I used Snowflake and dbt compiler. I used audience ratings as a proxy for viewer engagement and popularity, which are key indicators for advertising value. Code available upon request.
 
 <br>
 
